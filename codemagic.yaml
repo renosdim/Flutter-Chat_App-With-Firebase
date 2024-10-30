@@ -9,15 +9,33 @@ workflows:
     scripts:
       - name: Set iOS deployment target and excluded archs for simulator
         script: |
-          echo "platform :ios, '12.0'" >> ios/Podfile
-          echo "post_install do |installer|" >> ios/Podfile
-          echo "  installer.pods_project.targets.each do |target|" >> ios/Podfile
-          echo "    target.build_configurations.each do |config|" >> ios/Podfile
-          echo "      config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'] = 'arm64'" >> ios/Podfile
-          echo "    end" >> ios/Podfile
-          echo "  end" >> ios/Podfile
-          echo "end" >> ios/Podfile
           cd ios
+          # Ensure the Podfile starts with the required platform
+          echo "platform :ios, '12.0'" > Podfile
+          echo "target 'Runner' do" >> Podfile
+          echo "  use_frameworks!" >> Podfile
+          echo "  use_modular_headers!" >> Podfile
+          echo "  # Flutter dependencies" >> Podfile
+          echo "  flutter_application_path = '../'" >> Podfile
+          echo "  load File.join(flutter_application_path, '.ios', 'Flutter', 'podhelper.rb')" >> Podfile
+          echo "end" >> Podfile
+          
+          # Add the post_install block to the Podfile
+          echo "post_install do |installer|" >> Podfile
+          echo "  installer.pods_project.targets.each do |target|" >> Podfile
+          echo "    if target.name == 'BoringSSL-GRPC'" >> Podfile
+          echo "      target.source_build_phase.files.each do |file|" >> Podfile
+          echo "        if file.settings && file.settings['COMPILER_FLAGS']" >> Podfile
+          echo "          flags = file.settings['COMPILER_FLAGS'].split" >> Podfile
+          echo "          flags.reject! { |flag| flag == '-GCC_WARN_INHIBIT_ALL_WARNINGS' }" >> Podfile
+          echo "          file.settings['COMPILER_FLAGS'] = flags.join(' ')" >> Podfile
+          echo "        end" >> Podfile
+          echo "      end" >> Podfile
+          echo "    end" >> Podfile
+          echo "  end" >> Podfile
+          echo "end" >> Podfile
+
+          # Install the pods
           pod install
       - flutter clean
       - flutter pub get

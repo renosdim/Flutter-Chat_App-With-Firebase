@@ -1,4 +1,4 @@
-platform :ios, '11.0'  # Use iOS 11 or above, as App Center supports it
+platform :ios, '12.0'  # Use iOS 11 or above, as App Center supports it
 
 target 'Runner' do
   # Use static frameworks to avoid dynamic linking issues

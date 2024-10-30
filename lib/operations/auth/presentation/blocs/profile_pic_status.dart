@@ -1,0 +1,4 @@
+enum ProfilePicStatus{
+  unknown,
+  chosen
+}

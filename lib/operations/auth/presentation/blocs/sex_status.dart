@@ -1,0 +1,4 @@
+enum SexStatus{
+  unknown,
+  valid
+}

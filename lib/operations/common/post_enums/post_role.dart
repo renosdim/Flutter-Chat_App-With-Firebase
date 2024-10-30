@@ -1,0 +1,5 @@
+enum PostRole{
+  tag,
+  admin;
+}
+

@@ -15,7 +15,7 @@ workflows:
           echo "target 'Runner' do" >> Podfile
           echo "  use_frameworks!" >> Podfile
           echo "  use_modular_headers!" >> Podfile
-          echo "  flutter_application_path = '../'" >> Podfile
+          echo "  flutter_application_path = '../../'" >> Podfile
           echo "  load File.join(flutter_application_path, 'ios', 'Flutter', 'podhelper.rb')" >> Podfile # Fixed the path
           echo "end" >> Podfile
           

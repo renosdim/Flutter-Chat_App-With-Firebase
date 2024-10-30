@@ -1,0 +1,26 @@
+workflows:
+  ios:
+    name: iOS Workflow
+    environment:
+      vars:
+        FLUTTER_VERSION: stable
+        XCODE_WORKSPACE: ios/Runner.xcworkspace
+        XCODE_SCHEME: Runner
+    scripts:
+      - name: Set iOS deployment target and excluded archs for simulator
+        script: |
+          echo "platform :ios, '12.0'" >> ios/Podfile
+          echo "post_install do |installer|" >> ios/Podfile
+          echo "  installer.pods_project.targets.each do |target|" >> ios/Podfile
+          echo "    target.build_configurations.each do |config|" >> ios/Podfile
+          echo "      config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'] = 'arm64'" >> ios/Podfile
+          echo "    end" >> ios/Podfile
+          echo "  end" >> ios/Podfile
+          echo "end" >> ios/Podfile
+          cd ios
+          pod install
+      - flutter clean
+      - flutter pub get
+      - flutter build ios --no-codesign
+    artifacts:
+      - build/ios/ipa

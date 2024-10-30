@@ -1,19 +1,15 @@
 # Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
-platform :ios, '12.0'  # Change this to a version >= 12.0
-
-# Comment the next line if you don't want to use dynamic frameworks
-use_frameworks!
-
-# Flutter installation
-flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 
 target 'Runner' do
-  # Pods for Runner
-  # Add any additional pods here if needed
-end
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
 
-target 'RunnerTests' do
-  inherit! :search_paths
-  # Pods for testing
+  # Pods for Runner
+
+  target 'RunnerTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
 end

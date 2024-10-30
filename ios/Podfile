@@ -1,12 +1,16 @@
-# Uncomment the next line to define a global platform for your project
-# platform :ios, '9.0'
+platform :ios, '11.0'  # Use iOS 11 or above, as App Center supports it
 
 target 'Runner' do
-  # Comment the next line if you don't want to use dynamic frameworks
-  use_frameworks!
+  # Use static frameworks to avoid dynamic linking issues
+  use_frameworks! :linkage => :static
 
-  # Pods for Runner
-  pod 'AppCenter'
+  # Specify local path for App Center frameworks
+  pod 'AppCenter', :path => '../AppCenterSDKs/AppCenter'
+  pod 'AppCenterAnalytics', :path => '../AppCenterSDKs/AppCenterAnalytics'
+  pod 'AppCenterCrashes', :path => '../AppCenterSDKs/AppCenterCrashes'
+  # Uncomment the following line if you need the Distribute module
+  # pod 'AppCenterDistribute', :path => '../AppCenterSDKs/AppCenterDistribute'
+
   target 'RunnerTests' do
     inherit! :search_paths
     # Pods for testing

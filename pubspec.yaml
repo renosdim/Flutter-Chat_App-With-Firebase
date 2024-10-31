@@ -54,6 +54,7 @@ dependencies:
   remove: ^1.0.10
   provider: ^6.1.2
   swipe_to: ^1.0.6
+  win32: ^5.1.1
 
 
 dev_dependencies:

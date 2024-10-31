@@ -16,7 +16,7 @@ jobs:
           architecture: x64
           
       - run: flutter pub upgrade win32
-      
+      - run : flutter pub cache clean
       - run: flutter pub get
       
 

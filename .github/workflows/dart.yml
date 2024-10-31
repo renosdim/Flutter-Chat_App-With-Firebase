@@ -21,7 +21,7 @@ jobs:
         working-directory: ios
 
       # Build for iOS Simulator instead of a physical device
-      - run: flutter build ios --release --no-codesign --simulator
+      - run: flutter build ios  --simulator
 
       # Create Payload directory and move the .app file into it
       - run: mkdir -p Payload

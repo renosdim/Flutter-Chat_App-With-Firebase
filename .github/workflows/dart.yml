@@ -14,24 +14,32 @@ jobs:
         with:
           channel: 'stable'
           architecture: x64
+
       - run: flutter pub get
-      
 
       - run: pod repo update
         working-directory: ios
 
       - run: flutter build ios --release --no-codesign
 
-      - run: mkdir Payload
+      # Create Payload directory and move the .app file into it
+      - run: mkdir -p Payload
         working-directory: build/ios/iphoneos
 
-      - run: mv Runner.app/ Payload
+      - run: mv Runner.app Payload/
         working-directory: build/ios/iphoneos
 
-      - name: Zip output
+      # Create the .ipa file from the Payload directory
+      - name: Zip .ipa output
         run: zip -qq -r -9 FlutterIpaExport.ipa Payload
         working-directory: build/ios/iphoneos
 
+      # Create the .zip file containing the .app file
+      - name: Zip .app output
+        run: zip -qq -r -9 FlutterAppExport.zip Payload
+        working-directory: build/ios/iphoneos
+
+      # Upload the .ipa file to GitHub releases
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         with:
@@ -39,4 +47,15 @@ jobs:
           file: build/ios/iphoneos/FlutterIpaExport.ipa
           tag: v1.0
           overwrite: true
-          body: "This is first release"
+          body: "This is the first release"
+
+      # Upload the .zip file containing the .app
+      - name: Upload .zip file to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: build/ios/iphoneos/FlutterAppExport.zip
+          tag: v1.0
+          overwrite: true
+          body: "This is the zipped app file"
+

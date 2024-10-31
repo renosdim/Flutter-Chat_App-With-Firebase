@@ -40,13 +40,7 @@ jobs:
         run: flutter pub get
 
       # Cache CocoaPods dependencies
-      - name: Cache CocoaPods dependencies
-        uses: actions/cache@v3
-        with:
-          path: ios/Pods
-          key: pod-deps-${{ runner.os }}-${{ hashFiles('ios/Podfile.lock') }}
-          restore-keys: |
-            pod-deps-${{ runner.os }}-
+      
 
       - name: Install CocoaPods dependencies
         run: pod install --repo-update

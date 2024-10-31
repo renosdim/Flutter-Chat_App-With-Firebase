@@ -1,4 +1,4 @@
-name: iOS-ipa-build
+name: iOS Build
 
 on:
   workflow_dispatch:
@@ -10,34 +10,52 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: subosito/flutter-action@v2
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
           architecture: x64
 
-      - run: flutter pub get
-      
-      - run: pod repo update
-        working-directory: ios
+      - name: Get dependencies
+        run: flutter pub get
 
-      - run: flutter build ios --release --no-codesign
-        continue-on-error: false  # Ensure the build fails if this step fails
+      - name: Decode Certificate
+        run: |
+          echo "${{ secrets.CERTIFICATE_P12 }}" | base64 --decode > certificate.p12
 
-      - run: mkdir Payload
-        working-directory: build/ios/iphoneos
+      - name: Decode Provisioning Profile
+        run: |
+          echo "${{ secrets.PROVISIONING_PROFILE }}" | base64 --decode > profile.mobileprovision
 
-      - run: mv Runner.app/ Payload
-        working-directory: build/ios/iphoneos
+      - name: Install Certificates
+        run: |
+          security create-keychain -p "" build.keychain
+          security import certificate.p12 -k build.keychain -P "${{ secrets.CERTIFICATE_PASSWORD }}" -T /usr/bin/codesign
+          security list-keychains -s build.keychain
+          security set-key-partition-list -S apple-tool:,apple: -s -k "" build.keychain
+          security unlock-keychain -p "" build.keychain
+
+      - name: Install Provisioning Profile
+        run: |
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          cp profile.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
+
+      - name: Build iOS app
+        run: flutter build ios --release  # Removed --no-codesign to enable code signing
+
+      - name: Create Payload
+        run: |
+          mkdir Payload
+          mv build/ios/iphoneos/Runner.app Payload
 
       - name: Zip output
         run: zip -qq -r -9 FlutterIpaExport.ipa Payload
-        working-directory: build/ios/iphoneos
 
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: build/ios/iphoneos/FlutterIpaExport.ipa
+          file: FlutterIpaExport.ipa
           tag: v1.0
           overwrite: true
-          body: "This is first release"
+          body: "This is the first release"

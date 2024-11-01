@@ -20,8 +20,18 @@ jobs:
       - run: pod repo update
         working-directory: ios
 
-      # Build for iOS Simulator instead of a physical device
-      - run: flutter build ios  --simulator
+      # Check for GoogleService-Info.plist
+      - name: Check for GoogleService-Info.plist
+        run: |
+          if [ ! -f ios/Runner/GoogleService-Info.plist ]; then
+            echo "Error: GoogleService-Info.plist not found!"
+            exit 1
+          else
+            echo "GoogleService-Info.plist found."
+          fi
+
+      # Build for iOS Simulator
+      - run: flutter build ios --simulator
 
       # Create Payload directory and move the .app file into it
       - run: mkdir -p Payload
@@ -44,4 +54,5 @@ jobs:
           tag: v1.0
           overwrite: true
           body: "This is the zipped app file for the simulator"
+
 

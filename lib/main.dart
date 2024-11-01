@@ -59,9 +59,10 @@ void main() {
           //await CloudMessaging().configurePushNotifications();
 
       return App(
+        regToken:'',
         currentUserOp: serviceLocator<CurrentUserOp>(),
 
-        regToken:await FirebaseMessaging.instance.getToken(),
+
       );
     },
   );

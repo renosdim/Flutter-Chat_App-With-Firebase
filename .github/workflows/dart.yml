@@ -25,15 +25,15 @@ jobs:
 
       # Create Payload directory and move the .app file into it
       - run: mkdir -p Payload
-        working-directory: build/ios/simulator
+        working-directory: build/ios/iphonesimulator
 
       - run: mv Runner.app Payload/
-        working-directory: build/ios/simulator
+        working-directory: build/ios/iphonesimulator
 
       # Create the .zip file containing the .app file
       - name: Zip .app output
         run: zip -qq -r -9 FlutterAppExport.zip Payload
-        working-directory: build/ios/simulator
+        working-directory: build/ios/iphonesimulator
 
       # Upload the .zip file containing the .app
       - name: Upload .zip file to release

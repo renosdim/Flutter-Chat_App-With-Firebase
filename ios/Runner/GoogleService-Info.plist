@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>916180170981-csd2dmp65gb04ii583qq81s1di6nh3s6.apps.googleusercontent.com</string>
+	<string>916180170981-ffg6foju8bar635tpurorak15pmb32kr.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.916180170981-csd2dmp65gb04ii583qq81s1di6nh3s6</string>
+	<string>com.googleusercontent.apps.916180170981-ffg6foju8bar635tpurorak15pmb32kr</string>
 	<key>API_KEY</key>
 	<string>AIzaSyAuQ8ckA6GbWt1Wui__5E9hUN6txZNsHPg</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>cam.example.test4</string>
+	<string>com.example.customChatCleanArchitectureWithLoginFirebase</string>
 	<key>PROJECT_ID</key>
 	<string>second-dacfd</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,7 +29,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:916180170981:ios:bffea00ac5cf3fddd3fc0c</string>
+	<string>1:916180170981:ios:40dadf6dcbc0e47ed3fc0c</string>
 	<key>DATABASE_URL</key>
 	<string>https://second-dacfd-default-rtdb.europe-west1.firebasedatabase.app</string>
 </dict>

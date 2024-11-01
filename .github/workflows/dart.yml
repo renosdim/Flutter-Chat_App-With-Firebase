@@ -1,76 +1,47 @@
-name: iOS-ipa-build
+name: iOS-Simulator-Build
 
 on:
   workflow_dispatch:
-    inputs:
-      tag:
-        description: 'Release tag (e.g., v1.0.1)'
-        default: 'v1.0'
-        required: true
-      release_body:
-        description: 'Release body'
-        default: 'This is an automated release'
-        required: false
 
 jobs:
   build-ios:
-    name: 🎉 iOS Build
+    name: 🎉 iOS Simulator Build
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
 
-      # Cache Flutter dependencies
-      - name: Cache Flutter dependencies
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.pub-cache
-          key: flutter-deps-${{ runner.os }}-${{ hashFiles('**/pubspec.yaml') }}
-          restore-keys: |
-            flutter-deps-${{ runner.os }}-
-
-      # Set up Flutter
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
+      - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
           architecture: x64
 
-      - name: Get Flutter dependencies
-        run: flutter pub get
+      - run: flutter pub get
 
-      # Cache CocoaPods dependencies
-      
-
-      - name: Install CocoaPods dependencies
-        run: pod install --repo-update
+      - run: pod repo update
         working-directory: ios
 
-      # Build the iOS app
-      - name: Build iOS app
-        run: flutter build ios --release --no-codesign --verbose
-        continue-on-error: false
+      # Build for iOS Simulator instead of a physical device
+      - run: flutter build ios  --simulator
 
-      # Create Payload directory and move app
-      - name: Create Payload
-        run: mkdir Payload
-        working-directory: build/ios/iphoneos
+      # Create Payload directory and move the .app file into it
+      - run: mkdir -p Payload
+        working-directory: build/ios/iphonesimulator
 
-      - name: Move App to Payload
-        run: mv Runner.app/ Payload
-        working-directory: build/ios/iphoneos
+      - run: mv Runner.app Payload/
+        working-directory: build/ios/iphonesimulator
 
-      # Zip the output
-      - name: Zip output
-        run: zip -qq -r -9 FlutterIpaExport.ipa Payload
-        working-directory: build/ios/iphoneos
+      # Create the .zip file containing the .app file
+      - name: Zip .app output
+        run: zip -qq -r -9 FlutterAppExportSim.zip Payload
+        working-directory: build/ios/iphonesimulator
 
-      # Upload to release
-      - name: Upload binaries to release
+      # Upload the .zip file containing the .app
+      - name: Upload .zip file to release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: build/ios/iphoneos/FlutterIpaExport.ipa
-          tag: ${{ github.event.inputs.tag }}
+          file: build/ios/iphonesimulator/FlutterAppExportSim.zip
+          tag: v1.0
           overwrite: true
-          body: ${{ github.event.inputs.release_body }}
+          body: "This is the zipped app file for the simulator"
+

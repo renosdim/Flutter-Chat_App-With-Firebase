@@ -32,7 +32,7 @@ jobs:
 
       # Create the .zip file containing the .app file
       - name: Zip .app output
-        run: zip -qq -r -9 FlutterAppExport.zip Payload
+        run: zip -qq -r -9 FlutterAppExportSim.zip Payload
         working-directory: build/ios/iphonesimulator
 
       # Upload the .zip file containing the .app
@@ -40,7 +40,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: build/ios/simulator/FlutterAppExport.zip
+          file: build/ios/iphonesimulator/FlutterAppExportSim.zip
           tag: v1.0
           overwrite: true
           body: "This is the zipped app file for the simulator"

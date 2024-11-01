@@ -21,26 +21,27 @@ jobs:
         working-directory: ios
 
       # Build for iOS Simulator instead of a physical device
-      - run: flutter build ios  --simulator
+      - run: flutter build ios --release --no-codesign --simulator
 
       # Create Payload directory and move the .app file into it
       - run: mkdir -p Payload
-        working-directory: build/ios/iphoneos
+        working-directory: build/ios/simulator
 
       - run: mv Runner.app Payload/
-        working-directory: build/ios/iphoneos
+        working-directory: build/ios/simulator
 
       # Create the .zip file containing the .app file
       - name: Zip .app output
         run: zip -qq -r -9 FlutterAppExport.zip Payload
-        working-directory: build/ios/iphoneos
+        working-directory: build/ios/simulator
 
       # Upload the .zip file containing the .app
       - name: Upload .zip file to release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: build/ios/iphoneos/FlutterAppExport.zip
+          file: build/ios/simulator/FlutterAppExport.zip
           tag: v1.0
           overwrite: true
           body: "This is the zipped app file for the simulator"
+

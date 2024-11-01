@@ -28,7 +28,7 @@ typedef AppBuilder = Future<Widget> Function();
 
 Future<void> bootstrap(AppBuilder builder) async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp();
   //WidgetsBinding.instance.addObserver(AppLifecycleListener());
   //FirebaseDatabase.instance.setPersistenceEnabled(true);
 

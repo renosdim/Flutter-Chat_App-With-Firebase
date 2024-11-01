@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>916180170981-csd2dmp65gb04ii583qq81s1di6nh3s6.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.916180170981-csd2dmp65gb04ii583qq81s1di6nh3s6</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAuQ8ckA6GbWt1Wui__5E9hUN6txZNsHPg</string>
+	<key>GCM_SENDER_ID</key>
+	<string>916180170981</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>cam.example.test4</string>
+	<key>PROJECT_ID</key>
+	<string>second-dacfd</string>
+	<key>STORAGE_BUCKET</key>
+	<string>second-dacfd.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:916180170981:ios:bffea00ac5cf3fddd3fc0c</string>
+	<key>DATABASE_URL</key>
+	<string>https://second-dacfd-default-rtdb.europe-west1.firebasedatabase.app</string>
+</dict>
+</plist>

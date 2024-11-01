@@ -1,0 +1,34 @@
+# codemagic.yaml
+
+workflows:
+  ios-test-build:
+    name: iOS Test Build Workflow
+    scripts:
+      - name: Install dependencies
+        script: |
+          flutter pub get
+
+      - name: Run Flutter tests
+        script: |
+          flutter test
+
+    environment:
+      flutter: stable # Use a specific Flutter channel (stable, beta, etc.)
+      ios:
+        version: latest # Use the latest Xcode version
+
+    caching:
+      cache_paths:
+        - /Users/codemagic/.pub-cache
+        - /Users/codemagic/ios/Pods
+
+    build:
+      ios:
+        project: ios/Runner.xcworkspace # Specify the Xcode workspace
+        scheme: Runner # Specify the scheme to build
+        configuration: Release # Specify the build configuration
+        output_directory: build/ios/ # Specify where to store the output files
+        export_method: development # Use 'development' for test builds
+
+    artifacts:
+      - build/ios/*.ipa # Keep the generated IPA file

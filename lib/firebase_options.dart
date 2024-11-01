@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDy5ZX2f-wMgOuYMtq-4JiZMkImPLPn0Co',
-    appId: '1:916180170981:android:0e93d0f7e1555d98d3fc0c',
+    appId: '1:916180170981:android:c02130853673aac3d3fc0c',
     messagingSenderId: '916180170981',
     projectId: 'second-dacfd',
     databaseURL: 'https://second-dacfd-default-rtdb.europe-west1.firebasedatabase.app',
@@ -60,11 +60,13 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAuQ8ckA6GbWt1Wui__5E9hUN6txZNsHPg',
-    appId: '1:916180170981:ios:5465e65cc9ea5b4cd3fc0c',
+    appId: '1:916180170981:ios:40dadf6dcbc0e47ed3fc0c',
     messagingSenderId: '916180170981',
     projectId: 'second-dacfd',
     databaseURL: 'https://second-dacfd-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'second-dacfd.appspot.com',
-    iosBundleId: 'com.example.test4',
+    iosClientId: '916180170981-ffg6foju8bar635tpurorak15pmb32kr.apps.googleusercontent.com',
+    iosBundleId: 'com.example.customChatCleanArchitectureWithLoginFirebase',
   );
+
 }

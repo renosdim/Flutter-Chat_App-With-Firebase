@@ -1,0 +1,47 @@
+name: Check iOS Pre-Build
+
+on:
+  workflow_dispatch: # Manually trigger the workflow
+  push:
+    branches:
+      - main # or the branch you want to monitor
+
+jobs:
+  check-ios:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Check for GoogleService-Info.plist
+        run: |
+          if [ ! -f ios/Runner/GoogleService-Info.plist ]; then
+            echo "Error: GoogleService-Info.plist not found!"
+            exit 1
+          else
+            echo "GoogleService-Info.plist found."
+          fi
+
+      - name: Check iOS Project Structure
+        run: |
+          # Check if other important files are present
+          if [ ! -f ios/Podfile ]; then
+            echo "Error: Podfile not found!"
+            exit 1
+          fi
+          if [ ! -f ios/Runner.xcodeproj/project.pbxproj ]; then
+            echo "Error: Xcode project file not found!"
+            exit 1
+          fi
+          echo "All required files are present."
+
+      - name: Success Message
+        run: echo "Pre-build checks completed successfully."
+
+      - name: Trigger Build Workflow
+        if: success() # Only run if previous steps succeeded
+        uses: peter-evans/workflow-dispatch@v1
+        with:
+          repository: ${{ github.repository }}
+          workflow: 'iOS-Simulator-Build.yml' # Name of the actual build workflow file
+          ref: ${{ github.ref }} # Trigger the workflow on the same ref (branch)

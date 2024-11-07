@@ -7,7 +7,7 @@ abstract class MessageBubbleFormat extends StatelessWidget{
   final String? content;
   final List<MessageAlreadyReadFormat>? read;
   final String? pic;
-  final bool?consecutive;
+  final bool? consecutive;
   final DateTime? previousMessageTimestamp;
   final DateTime? timestamp;
   final String? header;

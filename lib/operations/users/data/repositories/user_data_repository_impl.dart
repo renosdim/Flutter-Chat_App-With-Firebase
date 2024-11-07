@@ -39,6 +39,18 @@ class UserDataRepImpl implements UserDataRepository{
   @override
   Future<Either<Failure, List<UserData>>> getUsersByPrefix(String prefix,[List<String>? restricted,int? limit]) async {
     // TODO: implement getUserByPrefix
+    int maxSeconds = 5;
+    int seconds = 0;
+    while(seconds<=maxSeconds){
+      if(networkInfo.hasConnection){
+        break;
+      }
+      else{
+        await Future.delayed(Duration(seconds: seconds+1));
+        seconds+=1;
+      }
+      
+    }
     return Right(await remoteSource.getUsersByPrefix(prefix,restricted,true,limit));
   }
 

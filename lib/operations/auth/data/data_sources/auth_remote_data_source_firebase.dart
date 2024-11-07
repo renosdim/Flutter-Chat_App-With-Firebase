@@ -148,7 +148,7 @@ class AuthRemoteDataSourceFirebase implements AuthRemoteDataSource {
   Map);
   return existingChats;
   }
-  );
+    );
   }
 
   @override
@@ -156,7 +156,7 @@ class AuthRemoteDataSourceFirebase implements AuthRemoteDataSource {
     // TODO: implement enableUserExperience
     if(_firebaseAuth.currentUser!=null){
 
-      String? token = await FirebaseMessaging.instance.getToken();
+      String? token = '';
       DocumentReference ref =  FirebaseFirestore.instance.collection('users').doc(_firebaseAuth.currentUser!.uid);
       DocumentSnapshot snapshot = await ref.get();
 

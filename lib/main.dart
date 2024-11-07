@@ -1,25 +1,27 @@
 import 'dart:async';
-
-import 'package:custom_chat_clean_architecture_with_login_firebase/operations/auth/data/data_sources/auth_remote_data_source.dart';
+import 'package:custom_chat_clean_architecture_with_login_firebase/operations/auth/domain/repositories/auth_repository.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/operations/auth/domain/use_cases/sign_out_use_case.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/operations/auth/presentation/screens/sign_in_screen.dart';
+import 'package:custom_chat_clean_architecture_with_login_firebase/operations/users/presentation/users_cubit.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/screens/chat/chat_tab_picker.dart';
-import 'package:custom_chat_clean_architecture_with_login_firebase/screens/chat/regular_chat/immutable/chat_graphics_class.dart';
-import 'screens/example_chat_tiles.dart';
+import 'package:custom_chat_clean_architecture_with_login_firebase/screens/graphics_classes/chat_graphics_class.dart';
+import 'package:custom_chat_clean_architecture_with_login_firebase/screens/chat/regular_chat/immutable/chatroom_content/chatroom_content_immut.dart';
+import 'package:custom_chat_clean_architecture_with_login_firebase/screens/general_navigation_bloc/general_navigation_cubit.dart';
+import 'package:custom_chat_clean_architecture_with_login_firebase/screens/general_navigation_bloc/general_navigation_state.dart';
+import 'package:custom_chat_clean_architecture_with_login_firebase/screens/graphics_classes/user_graphics_class.dart';
+import 'package:custom_chat_clean_architecture_with_login_firebase/screens/navigation_animations/slide_animation.dart';
+import 'package:custom_chat_clean_architecture_with_login_firebase/screens/users/immut/profile_screen_immut.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/screens/theme.dart';
+import 'package:custom_chat_clean_architecture_with_login_firebase/screens/users/search_users_screens/search_user_screen_2.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'firebase_options.dart';
 import 'injection.dart';
 import 'operations/auth/current_user.dart';
 import 'package:provider/provider.dart';
-
 import 'operations/auth/presentation/blocs/auth_process_init/auth_proccess_cubit.dart';
 import 'operations/auth/presentation/blocs/auth_process_init/auth_proccess_state.dart';
-
 import 'operations/chat/regular_chat/presentation/ChatService.dart';
 import 'operations/common/network_info.dart';
 
@@ -31,18 +33,7 @@ Future<void> bootstrap(AppBuilder builder) async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   //WidgetsBinding.instance.addObserver(AppLifecycleListener());
   //FirebaseDatabase.instance.setPersistenceEnabled(true);
-
-  const ChatGraphicsClass chatGraphicsClass =
-          ChatGraphicsClass(
-            messageAlreadyReadFormat: MessageAlreadyRead1(),
-            chatTileLastMessageFormat: SnapchatStyleMessageWidget(),
-              regularChatTileFormat: ChatTile1(),
-              scrollingAndRefreshingFormat: RegularRefreshScroll(),
-              chatroomContentFormat: DarkChatUi(),
-              messageBubbleFormat: AdaptiveChatBubble(),
-            picWidgetFormat:PicWidget1(), userNameInsteadOfName: true
-          );
-  initializeDependencies(chatGraphicsClass);
+  initializeDependencies();
 
 
   runApp(await builder());
@@ -58,11 +49,15 @@ void main() {
           serviceLocator<NetworkInfo>().initialize();
           //await CloudMessaging().configurePushNotifications();
 
-      return App(
-        regToken:'',
-        currentUserOp: serviceLocator<CurrentUserOp>(),
+      return UserGraphicsClass(
+              child:ChatGraphicsClass(
+                    child:App(
+                          regToken:'',
+                          currentUserOp: serviceLocator<CurrentUserOp>(),
 
 
+              )
+          )
       );
     },
   );
@@ -105,16 +100,38 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
     return MultiRepositoryProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) =>
-          serviceLocator<ChatService>())
-      ],
-      child: BlocProvider(
-        create: (context) => AuthInitializeProcessesCubit(
+        RepositoryProvider.value(value: serviceLocator<AuthRepository>()),
 
-          chatService: serviceLocator<ChatService>(),
-          signOutUseCase: serviceLocator<SignOutUseCase>(),
-          currentUserOp: widget.currentUserOp, authRemoteDataSource: serviceLocator<AuthRemoteDataSource>(),
-        )..enable(),
+        ChangeNotifierProvider(create: (_) =>
+            ChatService(
+                currentUserOp:serviceLocator(),
+                getGroupMessagesUseCase:serviceLocator(),
+                getStartingMessagesUseCase:serviceLocator(),
+                sendMessageUseCase:serviceLocator(),
+                sendGroupMessageUseCase:serviceLocator(),
+                setUpChatListener:serviceLocator(),
+                setUpGroupChatListener:serviceLocator(),
+                startingChatListeners:serviceLocator(),
+               )),
+
+        BlocProvider(
+        create: (context) =>
+            AuthInitializeProcessesCubit(
+
+                chatService: Provider.of<ChatService>(context,listen: false),
+                signOutUseCase: serviceLocator<SignOutUseCase>(),
+                currentUserOp: widget.currentUserOp, authRemoteDataSource: serviceLocator(),
+                )..enable()),
+
+        BlocProvider(create: (context)=>
+            GeneralNavigationCubit()),
+        BlocProvider(create: (context)=>
+            UserOpCubit(
+                currentUserOp: serviceLocator(),
+                userDataRepository:serviceLocator(),
+                getUsersByPrefix: serviceLocator()))
+      ],
+
         child: MaterialApp(
           title: 'Clean Architecture',
           theme: darkTheme(),
@@ -130,7 +147,29 @@ class _AppState extends State<App> with WidgetsBindingObserver {
                 );
               } else if (state.loggedIn==true) {
 
-                return const ChatChooser();  // Navigate to the chat chooser if logged in
+                return BlocConsumer<GeneralNavigationCubit,GeneralNavigationState>(
+                    listener:(context,navigationState){
+
+                        if(navigationState.openedChatroomWithId!=null){
+
+                          navigateWithSlideRight(context,ChatroomContentImmut(chatroomId: navigationState.openedChatroomWithId!));
+                        }
+                        else if(navigationState.leaveChatroom==true){
+
+                          Navigator.of(context).pop();
+                        }
+                        else if(navigationState.showUserProfileWithId!=null){
+                          navigateWithSlideRight(context, FriendProfileScreen(uid: navigationState.showUserProfileWithId!));
+                        }
+                    },
+                    builder:(context,navigationState){
+
+                      return ChatChooser();
+                    });
+
+
+
+                // Navigate to the chat chooser if logged in
               } else if(state.loggedIn==false) {
                 return const Scaffold(
                   body: Center(child: SignInScreen()),
@@ -144,7 +183,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             },
           ),
         ),
-      ),
+
     );
   }
 }

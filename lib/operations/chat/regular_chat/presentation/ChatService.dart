@@ -3,7 +3,7 @@ import 'package:custom_chat_clean_architecture_with_login_firebase/operations/ch
 import 'package:custom_chat_clean_architecture_with_login_firebase/operations/chat/regular_chat/domain/usecases/send_message_usecase.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/operations/chat/regular_chat/domain/usecases/set_up_starting_chat_listeners.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/operations/chat/regular_chat/dtos/regular_chatroom_dto.dart';
-import 'package:custom_chat_clean_architecture_with_login_firebase/screens/chat/regular_chat/immutable/chat_graphics_class.dart';
+import 'package:custom_chat_clean_architecture_with_login_firebase/screens/graphics_classes/chat_graphics_class.dart';
 import 'package:either_dart/either.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -37,7 +37,7 @@ class ChatService extends ChangeNotifier {
     Map<String, ChatroomDTO> _startingMessages = {};
   Set<String> _chatIds = {};
   Map<String,ChatSubscriptions> _friendSubscriptions = {};
-  final ChatGraphicsClass chatGraphicsClass;
+
   final GetStartingMessages getStartingMessagesUseCase;
   final SendMessage sendMessageUseCase;
   final SendGroupMessage sendGroupMessageUseCase;
@@ -50,7 +50,7 @@ class ChatService extends ChangeNotifier {
    bool loadedFirstTime = false;
   final CurrentUserOp currentUserOp;
   ChatService( {
-      required this.chatGraphicsClass,
+
       required this.startingChatListeners,
       required this.getStartingMessagesUseCase,
       required this.sendMessageUseCase,

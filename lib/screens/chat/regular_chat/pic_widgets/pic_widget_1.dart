@@ -4,16 +4,24 @@ import 'package:custom_chat_clean_architecture_with_login_firebase/screens/chat/
 import 'package:flutter/material.dart';
 
 class PicWidget1 extends PicWidgetFormat {
-  const PicWidget1({super.profilePics, super.key});
+  const PicWidget1({super.profilePics,super.onTap, super.key});
 
+  Widget gestureDetect(Widget widget){
+    return GestureDetector(
+      onTap:(){
+        onTap!();
+      },
+      child: widget,
+    );
+  }
   @override
   Widget build(BuildContext context) {
     if (profilePics == null || profilePics!.isEmpty) {
-      return _defaultPlaceholder();
+      return gestureDetect(_defaultPlaceholder());
     } else if (profilePics!.length == 1) {
-      return _buildSingleProfilePic(profilePics![0]);
+      return gestureDetect(_buildSingleProfilePic(profilePics![0]));
     } else {
-      return _buildGroupProfilePics(profilePics!);
+      return gestureDetect(_buildGroupProfilePics(profilePics!));
     }
   }
 
@@ -118,7 +126,7 @@ class PicWidget1 extends PicWidgetFormat {
   }
 
   @override
-  PicWidgetFormat copyWith(List<String>? profilePics) {
-    return PicWidget1(profilePics: profilePics);
+  PicWidgetFormat copyWith({List<String>? profilePics,VoidCallback? onTap}) {
+    return PicWidget1(profilePics: profilePics??this.profilePics,onTap: onTap??this.onTap,);
   }
 }

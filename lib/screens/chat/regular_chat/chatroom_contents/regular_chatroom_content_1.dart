@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/screens/chat/regular_chat/immutable/formats/chatroom_content_format.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/screens/chat/regular_chat/immutable/formats/message_bubble_format.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/screens/chat/regular_chat/immutable/formats/pic_widget_format.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../general_navigation_bloc/general_navigation_cubit.dart';
 
 class DarkChatUi extends ChatroomContentFormat {
   const DarkChatUi({
@@ -188,7 +191,8 @@ class _DarkChatUiContentState extends State<_DarkChatUiContent> {
                 children: [
                   IconButton(
                     onPressed: () {
-                      Navigator.of(context).pop();
+                      print('pressed it');
+                      context.read<GeneralNavigationCubit>().leaveChatroom();
                     },
                     icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
                   ),

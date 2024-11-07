@@ -50,7 +50,7 @@ class NetworkInfo {
         return false;
       }
     } on SocketException catch(_) {
-      return false;
+      return true;
     }
   }
 }

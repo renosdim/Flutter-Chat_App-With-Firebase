@@ -1,6 +1,7 @@
 
 import 'package:custom_chat_clean_architecture_with_login_firebase/operations/auth/domain/use_cases/sign_out_use_case.dart';
-import 'package:custom_chat_clean_architecture_with_login_firebase/screens/chat/regular_chat/immutable/chat_graphics_class.dart';
+import 'package:custom_chat_clean_architecture_with_login_firebase/screens/graphics_classes/chat_graphics_class.dart';
+import 'package:custom_chat_clean_architecture_with_login_firebase/screens/graphics_classes/user_graphics_class.dart';
 import 'package:get_it/get_it.dart';
 
 import 'operations/auth/current_user.dart';
@@ -34,7 +35,8 @@ import 'operations/users/domain/repositories/user_data_repository.dart';
 import 'operations/users/domain/usecases/get_users_by_prefix_usecase.dart';
 
 final GetIt serviceLocator = GetIt.instance;
-void initializeDependencies(ChatGraphicsClass chatGraphicsClass) async{
+void initializeDependencies(
+    ) async{
   serviceLocator.registerLazySingleton<NetworkInfo>(() => NetworkInfo());
 
   serviceLocator.registerLazySingleton<AuthLocalDataSource>(() => AuthLocalDataSource());
@@ -66,14 +68,8 @@ void initializeDependencies(ChatGraphicsClass chatGraphicsClass) async{
   serviceLocator.registerLazySingleton<SetUpChatListener>(()=>SetUpChatListener(messageRepository: serviceLocator(), chatDTOMapper:serviceLocator()));
   serviceLocator.registerLazySingleton<SetUpStartingChatListeners>(()=>SetUpStartingChatListeners(messageRepository: serviceLocator(), chatDTOMapper:serviceLocator()));
 
-  serviceLocator.registerLazySingleton<ChatService>(()=>ChatService(
-      currentUserOp:serviceLocator(),
-      getGroupMessagesUseCase:serviceLocator(),
-      getStartingMessagesUseCase:serviceLocator(),
-      sendMessageUseCase:serviceLocator(),
-      sendGroupMessageUseCase:serviceLocator(),
-      setUpChatListener:serviceLocator(),
-      setUpGroupChatListener:serviceLocator(),
-      startingChatListeners:serviceLocator(), chatGraphicsClass: chatGraphicsClass));
+
+
+
   //await serviceLocator<PlaceOp>().getPlaces();
 }

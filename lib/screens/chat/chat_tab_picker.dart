@@ -1,11 +1,10 @@
 
+import 'package:custom_chat_clean_architecture_with_login_firebase/main.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/operations/auth/domain/use_cases/sign_out_use_case.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/screens/chat/regular_chat/immutable/chatroom_content/chatroom_content_immut.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/screens/chat/regular_chat/immutable/chats_preview_immut.dart';
-
-import 'package:custom_chat_clean_architecture_with_login_firebase/screens/chat/regular_chat/search_users/search_users_to_text.dart';
-import 'package:custom_chat_clean_architecture_with_login_firebase/widgets/one_way_scroll_wrapper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 
@@ -13,7 +12,6 @@ import '../../injection.dart';
 import '../../operations/auth/current_user.dart';
 
 import '../../operations/chat/regular_chat/presentation/ChatService.dart';
-import '../../widgets/display_manner.dart';
 import '../navigation_animations/slide_animation.dart';
 
 import 'common/typo.dart';
@@ -36,19 +34,13 @@ class _ChatChooserState extends State<ChatChooser> with SingleTickerProviderStat
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
 
-    chatService = serviceLocator<ChatService>();
+    chatService = context.read<ChatService>();
 
     }
 
 
 
-  void navigateToChatRoom(String chatroomId){
-    print('pressed $chatroomId');
-    chatService.addChatSubscription(chatroomId);
-    navigateWithSlideRight(context,
-        ChatroomContentImmut(chatroomId: chatroomId,
-            ));
-  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,10 +73,7 @@ class _ChatChooserState extends State<ChatChooser> with SingleTickerProviderStat
                   child: Container(
                       decoration: BoxDecoration(border:Border.all(color:Theme. of (context).colorScheme.primary),color:Colors.white,borderRadius: const BorderRadius.all(Radius.circular(15),)),
                       child: IconButton(onPressed: (){
-                        postDialogDisplay(
-                            SearchUsersToChat(function: (chat){
-                          //navigateToChatRoom(chat.uid,chat.name,chat.profilePic);
-                        }), context);
+
                       },
                           icon:Icon(Icons.search_rounded,color:Theme. of (context).colorScheme.primary.withAlpha(150) )
                       )
@@ -107,7 +96,7 @@ class _ChatChooserState extends State<ChatChooser> with SingleTickerProviderStat
                 //decoration: const  BoxDecoration(color: Color(0xFF222222),borderRadius: BorderRadius.only(topLeft: Radius.circular(50),topRight: Radius.circular(50))),
                 child:
 
-                      ChatsPreviewImmut(onRefresh: chatService.getStartingMessages,onChatroomPressed:navigateToChatRoom),
+                      const InboxImmut(),
 
 
                 )

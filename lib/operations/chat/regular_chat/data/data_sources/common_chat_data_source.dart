@@ -1,12 +1,13 @@
 import 'dart:async';
 
+import 'package:custom_chat_clean_architecture_with_login_firebase/operations/chat/regular_chat/data/data_sources/chat_data_source.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/operations/chat/regular_chat/data/models/regular_chatroom_model.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/operations/chat/regular_chat/data/models/message_model.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/operations/common/entities/chatroom_entity.dart';
 import 'package:either_dart/either.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:rxdart/rxdart.dart';
+
 
 import '../../../../auth/current_user.dart';
 import '../../../../common/failures/failure.dart';
@@ -15,10 +16,11 @@ import '../models/group_chat_model.dart';
 import '../models/group_message_model.dart';
 
 
-class MessageRemoteSource{
+class MessageRemoteSource extends ChatDataSource{
   final DatabaseReference _database = FirebaseDatabase.instance.ref();
   final CurrentUserOp _currentUserOp;
-  MessageRemoteSource({required CurrentUserOp currentUserOp}):_currentUserOp = currentUserOp;
+  MessageRemoteSource({required super.currentUserOp}):_currentUserOp=currentUserOp;
+  @override
   Future<Either<Failure, ChatroomEntity>> getChatroomMessages(String chatroomId) async {
 
 
@@ -52,11 +54,12 @@ class MessageRemoteSource{
       return Left(MessageFailure(message: e));
     }
   }
+  @override
   Either<Failure, Stream<Either<Failure,ChatroomEntity>>> setUpChatSubscription(String chatroomId) {
     try {
       if (chatroomId.contains('group')) {
 
-        return _setUpGroupChatListener(chatroomId);
+        return setUpGroupChatListener(chatroomId);
       }
       else {
         // Try setting up the stream for a regular chatroom first
@@ -76,7 +79,7 @@ class MessageRemoteSource{
             } catch (e) {
               // Catch and throw specific NotRegularChatFailure for later handling
               if (e is NotRegularChatFailure) {
-                throw e;
+                rethrow;
               }
               // For other exceptions, you can choose to return null or rethrow
               throw UnexpectedError(
@@ -91,7 +94,7 @@ class MessageRemoteSource{
           if (error is NotRegularChatFailure) {
             print('Regular chat not found, setting up group chat listener.');
             // Return a new group chat stream if it's determined to be a group chat
-            return _setUpGroupChatListener(chatroomId).fold(
+            return setUpGroupChatListener(chatroomId).fold(
                   (failure) => throw failure,
               // Rethrow failure to be handled outside
                   (
@@ -110,7 +113,8 @@ class MessageRemoteSource{
 
   }
 
-  Either<Failure, Stream<Either<Failure, GroupChatModel>>> _setUpGroupChatListener(String chatroomId) {
+  @override
+  Either<Failure, Stream<Either<Failure, GroupChatModel>>> setUpGroupChatListener(String chatroomId) {
     try {
       print('Setting up group chat listener for $chatroomId');
 
@@ -145,6 +149,7 @@ class MessageRemoteSource{
       return Left(UnexpectedError(message: e.toString()));  // Return an Either in the case of error
     }
   }
+  @override
   Future<Either<Failure, Success>> sendMessage(String receiverUid, String message,{String? replyFor}) async {
 
     final String currentUserUid = _currentUserOp.currentUser.uid;
@@ -210,6 +215,7 @@ class MessageRemoteSource{
       }
     }
   }
+  @override
   Future<void> markGroupMessageAsRead(String messageKey,String chatroomId) async{
     DatabaseReference lastMessage = FirebaseDatabase.instance.ref().child('chat_rooms').child(chatroomId).child('messages').child(messageKey);
 
@@ -234,6 +240,7 @@ class MessageRemoteSource{
       }
     }
   }
+  @override
   Future<Either<Failure,Success>> sendGroupMessage(List<String> receiverUids, String message, String postId) async {
 
     final String currentUserUid = FirebaseAuth.instance.currentUser!.uid;

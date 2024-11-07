@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-            'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -28,15 +25,9 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-              'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-              'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -67,6 +58,37 @@ class DefaultFirebaseOptions {
     storageBucket: 'second-dacfd.appspot.com',
     iosClientId: '916180170981-ffg6foju8bar635tpurorak15pmb32kr.apps.googleusercontent.com',
     iosBundleId: 'com.example.customChatCleanArchitectureWithLoginFirebase',
+  );
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyBOh5OLDTu-jnA6QdisJlFUm65oZnBuX2Q',
+    appId: '1:916180170981:web:0ae305ec44818825d3fc0c',
+    messagingSenderId: '916180170981',
+    projectId: 'second-dacfd',
+    authDomain: 'second-dacfd.firebaseapp.com',
+    databaseURL: 'https://second-dacfd-default-rtdb.europe-west1.firebasedatabase.app',
+    storageBucket: 'second-dacfd.appspot.com',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyAuQ8ckA6GbWt1Wui__5E9hUN6txZNsHPg',
+    appId: '1:916180170981:ios:40dadf6dcbc0e47ed3fc0c',
+    messagingSenderId: '916180170981',
+    projectId: 'second-dacfd',
+    databaseURL: 'https://second-dacfd-default-rtdb.europe-west1.firebasedatabase.app',
+    storageBucket: 'second-dacfd.appspot.com',
+    iosClientId: '916180170981-ffg6foju8bar635tpurorak15pmb32kr.apps.googleusercontent.com',
+    iosBundleId: 'com.example.customChatCleanArchitectureWithLoginFirebase',
+  );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyAOm1AxRssOk_b96LNq1QDlUQMrS65jfMw',
+    appId: '1:916180170981:web:469d783ecaa6c0d4d3fc0c',
+    messagingSenderId: '916180170981',
+    projectId: 'second-dacfd',
+    authDomain: 'second-dacfd.firebaseapp.com',
+    databaseURL: 'https://second-dacfd-default-rtdb.europe-west1.firebasedatabase.app',
+    storageBucket: 'second-dacfd.appspot.com',
   );
 
 }

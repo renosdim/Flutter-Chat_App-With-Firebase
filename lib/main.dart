@@ -18,6 +18,7 @@ import 'package:custom_chat_clean_architecture_with_login_firebase/screens/theme
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'firebase_options.dart';
 import 'injection.dart';
 import 'operations/auth/current_user.dart';
@@ -33,6 +34,17 @@ typedef AppBuilder = Future<Widget> Function();
 Future<void> bootstrap(AppBuilder builder) async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Supabase.initialize(
+    url:'https://lkytesrttersudpfdjuz.supabase.co',
+    anonKey:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxreXRlc3J0dGVyc3VkcGZkanV6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzEwNjM1MjQsImV4cCI6MjA0NjYzOTUyNH0.sSVKPTRwhrrHFmQkLfbI9NXDdkcAFkWvBZ7dUEKmuHk'
+    ,
+    realtimeClientOptions: const RealtimeClientOptions(
+    logLevel: RealtimeLogLevel.info,
+  ),
+  storageOptions: const StorageClientOptions(
+  retryAttempts: 10,
+  ),
+  );
   //WidgetsBinding.instance.addObserver(AppLifecycleListener());
   //FirebaseDatabase.instance.setPersistenceEnabled(true);
   initializeDependencies();
@@ -167,7 +179,9 @@ class _AppState extends State<App> with WidgetsBindingObserver {
                     },
                     builder:(context,navigationState){
 
-                      return ChatChooser();
+                      return const Scaffold(
+                        body: Center(child: CircularProgressIndicator()),
+                      );
                     });
 
 

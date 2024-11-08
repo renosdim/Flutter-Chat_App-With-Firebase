@@ -37,11 +37,11 @@ class AuthInitializeProcessesCubit extends Cubit<AuthProcessState>{
         print('yes');
         emit(state.copyWith(
             loggedIn: true, loadingDependencies: true));
-        await _enableUser();
-        bool result = await _chatService.enable();
-        while (result==false){
-          result = await _chatService.enable();
-        }
+        // await _enableUser();
+        // bool result = await _chatService.enable();
+        // while (result==false){
+        //   result = await _chatService.enable();
+        // }
         loggedIn = true;
         emit(state.copyWith(loggedIn: true, loadingDependencies: false));
       }

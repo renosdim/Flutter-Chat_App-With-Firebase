@@ -1,5 +1,7 @@
 
+import 'package:custom_chat_clean_architecture_with_login_firebase/operations/auth/data/data_sources/auth_remote_source_supabase.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/operations/auth/domain/use_cases/sign_out_use_case.dart';
+import 'package:custom_chat_clean_architecture_with_login_firebase/operations/chat/regular_chat/data/data_sources/chat_data_source.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/screens/graphics_classes/chat_graphics_class.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/screens/graphics_classes/user_graphics_class.dart';
 import 'package:get_it/get_it.dart';
@@ -40,7 +42,7 @@ void initializeDependencies(
   serviceLocator.registerLazySingleton<NetworkInfo>(() => NetworkInfo());
 
   serviceLocator.registerLazySingleton<AuthLocalDataSource>(() => AuthLocalDataSource());
-  serviceLocator.registerLazySingleton<AuthRemoteDataSource>(() => AuthRemoteDataSourceFirebase());
+  serviceLocator.registerLazySingleton<AuthRemoteDataSource>(() => AuthRemoteSupa());
   serviceLocator.registerLazySingleton(() => CurrentUserOp(authRemoteDataSource: serviceLocator()));
   serviceLocator.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(serviceLocator(), remoteDataSource: serviceLocator(), localDataSource: serviceLocator()));
   serviceLocator.registerLazySingleton<SignOutUseCase>(()=>SignOutUseCase(authRepository: serviceLocator()));

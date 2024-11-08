@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'package:custom_chat_clean_architecture_with_login_firebase/operations/auth/domain/repositories/auth_repository.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/operations/auth/domain/use_cases/sign_out_use_case.dart';
+import 'package:custom_chat_clean_architecture_with_login_firebase/operations/auth/presentation/screens/forms/sign_in_form3.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/operations/auth/presentation/screens/sign_in_screen.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/operations/users/presentation/users_cubit.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/screens/chat/chat_tab_picker.dart';
+import 'package:custom_chat_clean_architecture_with_login_firebase/screens/graphics_classes/auth_graphics_class.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/screens/graphics_classes/chat_graphics_class.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/screens/chat/regular_chat/immutable/chatroom_content/chatroom_content_immut.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/screens/general_navigation_bloc/general_navigation_cubit.dart';
@@ -12,7 +14,7 @@ import 'package:custom_chat_clean_architecture_with_login_firebase/screens/graph
 import 'package:custom_chat_clean_architecture_with_login_firebase/screens/navigation_animations/slide_animation.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/screens/users/immut/profile_screen_immut.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/screens/theme.dart';
-import 'package:custom_chat_clean_architecture_with_login_firebase/screens/users/search_users_screens/search_user_screen_2.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -50,12 +52,13 @@ void main() {
           //await CloudMessaging().configurePushNotifications();
 
       return UserGraphicsClass(
+        child:AuthGraphicsClass(
               child:ChatGraphicsClass(
                     child:App(
                           regToken:'',
                           currentUserOp: serviceLocator<CurrentUserOp>(),
 
-
+                    )
               )
           )
       );

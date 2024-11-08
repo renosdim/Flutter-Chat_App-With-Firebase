@@ -3,8 +3,8 @@ import 'package:custom_chat_clean_architecture_with_login_firebase/screens/users
 import 'package:custom_chat_clean_architecture_with_login_firebase/screens/users/immut/formats/search_new_users_format.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/screens/users/immut/formats/user_search_result_format.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/screens/users/user_add_search_results/user_add_search_result_1.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 
 import '../users/search_users_screens/search_user_screen_1.dart';
 
@@ -24,4 +24,9 @@ class UserGraphicsClass extends InheritedWidget{
     // TODO: implement updateShouldNotify
     return oldWidget.profilePageFormat != profilePageFormat || oldWidget.searchNewUsersFormat!=searchNewUsersFormat || oldWidget.userSearchResultFormat!=userSearchResultFormat;
   }
+}
+
+class Random extends Provider{
+  Random({required super.create});
+  
 }

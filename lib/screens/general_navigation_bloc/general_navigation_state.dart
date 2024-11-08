@@ -1,5 +1,4 @@
 
-import 'package:custom_chat_clean_architecture_with_login_firebase/screens/chat/chat_tab_picker.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/screens/users/immut/search_users_by_prefix_screen.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';

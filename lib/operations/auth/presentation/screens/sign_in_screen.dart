@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:custom_chat_clean_architecture_with_login_firebase/operations/auth/presentation/screens/forms/sign_in_form3.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/operations/auth/presentation/screens/forms/sign_in_form_2.dart';
+import 'package:custom_chat_clean_architecture_with_login_firebase/screens/graphics_classes/auth_graphics_class.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,25 +21,25 @@ class SignInScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => SignInCubit(
-        signInFormFormat: const ElegantSignInForm(),
+        
         signInUseCase: SignInUseCase(
         authRepository: context.read<AuthRepository>(),
         ),
       ),
-      child: const SignInView(),
+      child: const _SignInView(),
     );
   }
 }
 
-class SignInView extends StatefulWidget {
+class _SignInView extends StatefulWidget {
 
-  const SignInView({super.key});
+  const _SignInView({super.key});
 
   @override
-  State<SignInView> createState() => _SignInViewState();
+  State<_SignInView> createState() => _SignInViewState();
 }
 
-class _SignInViewState extends State<SignInView> {
+class _SignInViewState extends State<_SignInView> {
   Timer? debounce;
 
   @override
@@ -78,12 +79,12 @@ class _SignInViewState extends State<SignInView> {
         builder: (context, state) {
 
 
-          Widget signInForm =   context.read<SignInCubit>().signInFormFormat.copyWith(
+          Widget signInForm =   AuthGraphicsClass.of(context).signInFormFormat.copyWith(
 
 
-            emailValid: state.emailStatus==EmailStatus.valid,
+            emailValid: state.emailStatus==EmailStatus.valid || state.emailStatus==EmailStatus.unknown,
 
-            passwordValid: state.passwordStatus==PasswordStatus.valid,
+            passwordValid: state.passwordStatus==PasswordStatus.valid || state.passwordStatus==PasswordStatus.unknown,
             onEmailChanged: (String value) {
               print('on chagmged email $value');
               if (debounce?.isActive ?? false) debounce?.cancel();

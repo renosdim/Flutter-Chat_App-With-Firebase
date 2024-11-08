@@ -1,11 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-
-import '../../../current_user.dart';
 import '../../../domain/use_cases/sign_in_use_case.dart';
 import '../../../domain/value_objects/email.dart';
 import '../../../domain/value_objects/password.dart';
-import '../../screens/sign_in_form_format.dart';
+
 import '../email_status.dart';
 import '../form_status.dart';
 import '../password_status.dart';
@@ -14,11 +12,11 @@ part 'sign_in_state.dart';
 
 class SignInCubit extends Cubit<SignInState> {
   final SignInUseCase _signInUseCase;
-  final SignInFormFormat signInFormFormat;
+  
 
   SignInCubit({
     required SignInUseCase signInUseCase,
-    required this.signInFormFormat
+   
   })  : _signInUseCase = signInUseCase,
         super(const SignInState());
 

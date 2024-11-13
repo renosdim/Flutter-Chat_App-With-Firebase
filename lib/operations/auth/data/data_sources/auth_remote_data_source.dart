@@ -16,6 +16,7 @@ abstract class AuthRemoteDataSource {
     required String email,
     required String password,
   });
+  Future<AuthUserModel> googleSignIn();
 
   Future<void> signOut();
   Future<Either<Failure,UserData>> enableUserExperience();

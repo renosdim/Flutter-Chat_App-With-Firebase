@@ -187,4 +187,10 @@ class AuthRemoteDataSourceFirebase implements AuthRemoteDataSource {
       return Left(UserRetrievalFailure(message: 'not logged in '));
     }
   }
+  
+  @override
+  Future<AuthUserModel> googleSignIn() {
+    // TODO: implement googleSignIn
+    throw UnimplementedError();
+  }
 }

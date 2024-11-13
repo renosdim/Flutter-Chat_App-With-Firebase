@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:custom_chat_clean_architecture_with_login_firebase/operations/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:equatable/equatable.dart';
 import '../../../domain/use_cases/sign_in_use_case.dart';
 import '../../../domain/value_objects/email.dart';
@@ -12,9 +13,9 @@ part 'sign_in_state.dart';
 
 class SignInCubit extends Cubit<SignInState> {
   final SignInUseCase _signInUseCase;
-  
+  final AuthRemoteDataSource authRemoteDataSource;
 
-  SignInCubit({
+  SignInCubit({required this.authRemoteDataSource, 
     required SignInUseCase signInUseCase,
    
   })  : _signInUseCase = signInUseCase,
@@ -49,24 +50,17 @@ class SignInCubit extends Cubit<SignInState> {
   }
 
   Future<void> signIn() async {
-    if (!(state.emailStatus == EmailStatus.valid) ||
-        !(state.passwordStatus == PasswordStatus.valid)) {
-      emit(state.copyWith(formStatus: FormStatus.invalid));
-      emit(state.copyWith(formStatus: FormStatus.initial));
-      return;
-    }
+    
 
     emit(state.copyWith(formStatus: FormStatus.submissionInProgress));
     try {
       await _signInUseCase(
-        SignInParams(
-          email: state.email!,
-          password: state.password!,
-        ),
+        SignInParams(email: state.email!, password: state.password!)
       );
 
       emit(state.copyWith(formStatus: FormStatus.submissionSuccess));
     } catch (err) {
+      print(err);
       emit(state.copyWith(formStatus: FormStatus.submissionFailure));
     }
   }

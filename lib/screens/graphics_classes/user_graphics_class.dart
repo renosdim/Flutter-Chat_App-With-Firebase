@@ -26,7 +26,3 @@ class UserGraphicsClass extends InheritedWidget{
   }
 }
 
-class Random extends Provider{
-  Random({required super.create});
-  
-}

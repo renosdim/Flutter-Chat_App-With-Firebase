@@ -179,9 +179,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
                     },
                     builder:(context,navigationState){
 
-                      return const Scaffold(
-                        body: Center(child: CircularProgressIndicator()),
-                      );
+                      return const ChatChooser();
                     });
 
 

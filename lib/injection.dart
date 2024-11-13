@@ -42,7 +42,7 @@ void initializeDependencies(
   serviceLocator.registerLazySingleton<NetworkInfo>(() => NetworkInfo());
 
   serviceLocator.registerLazySingleton<AuthLocalDataSource>(() => AuthLocalDataSource());
-  serviceLocator.registerLazySingleton<AuthRemoteDataSource>(() => AuthRemoteSupa());
+  serviceLocator.registerLazySingleton<AuthRemoteDataSource>(() => AuthRemoteDataSourceFirebase());
   serviceLocator.registerLazySingleton(() => CurrentUserOp(authRemoteDataSource: serviceLocator()));
   serviceLocator.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(serviceLocator(), remoteDataSource: serviceLocator(), localDataSource: serviceLocator()));
   serviceLocator.registerLazySingleton<SignOutUseCase>(()=>SignOutUseCase(authRepository: serviceLocator()));

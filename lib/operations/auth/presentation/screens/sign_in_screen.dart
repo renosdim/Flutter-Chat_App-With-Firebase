@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:custom_chat_clean_architecture_with_login_firebase/injection.dart';
+import 'package:custom_chat_clean_architecture_with_login_firebase/operations/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/operations/auth/presentation/screens/forms/sign_in_form3.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/operations/auth/presentation/screens/forms/sign_in_form_2.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/screens/graphics_classes/auth_graphics_class.dart';
@@ -21,8 +23,9 @@ class SignInScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => SignInCubit(
-        
+        authRemoteDataSource: serviceLocator<AuthRemoteDataSource>(),
         signInUseCase: SignInUseCase(
+        
         authRepository: context.read<AuthRepository>(),
         ),
       ),

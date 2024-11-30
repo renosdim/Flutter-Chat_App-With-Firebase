@@ -48,7 +48,7 @@ void main() {
 
           //await CloudMessaging().configurePushNotifications();
 
-          return App(
+          return const App(
         );});
 }
 

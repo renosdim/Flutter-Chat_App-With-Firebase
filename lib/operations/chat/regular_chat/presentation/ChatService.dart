@@ -3,17 +3,13 @@ import 'package:custom_chat_clean_architecture_with_login_firebase/operations/ch
 import 'package:custom_chat_clean_architecture_with_login_firebase/operations/chat/regular_chat/domain/usecases/send_message_usecase.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/operations/chat/regular_chat/domain/usecases/set_up_starting_chat_listeners.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/operations/chat/regular_chat/dtos/regular_chatroom_dto.dart';
-import 'package:custom_chat_clean_architecture_with_login_firebase/screens/graphics_classes/chat_graphics_class.dart';
 import 'package:either_dart/either.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import '../../../auth/current_user.dart';
 import '../../../common/dto.dart';
 import '../../../common/failures/failure.dart';
-import '../../../common/successes/success.dart';
 import '../../../generalOp.dart';
-import '../domain/usecases/get_group_messages.dart';
-import '../domain/usecases/group_chat_listener_usecase.dart';
 import '../domain/usecases/send_group_message_usecase.dart';
 import '../dtos/group_chatroom_dto.dart';
 import '../domain/usecases/setup_chat_listener_usecase.dart';
@@ -42,22 +38,21 @@ class ChatService extends ChangeNotifier {
   final SendMessage sendMessageUseCase;
   final SendGroupMessage sendGroupMessageUseCase;
   final SetUpChatListener setUpChatListener;
-  final SetUpGroupChatListener setUpGroupChatListener;
-  final GetGroupMessages getGroupMessagesUseCase;
+
   final SetUpStartingChatListeners startingChatListeners;
 
    bool gotStartingMessages  = false;
    bool loadedFirstTime = false;
   final CurrentUserOp currentUserOp;
   ChatService( {
+      required this.currentUserOp,
 
       required this.startingChatListeners,
       required this.getStartingMessagesUseCase,
       required this.sendMessageUseCase,
       required this.sendGroupMessageUseCase,
       required this.setUpChatListener,
-      required this.setUpGroupChatListener,
-      required  this.currentUserOp, required this.getGroupMessagesUseCase});
+      });
   Map<String,ChatroomDTO>? get startingMessages  => _startingMessages;
 
   String getChatroomId(List<String> uids){

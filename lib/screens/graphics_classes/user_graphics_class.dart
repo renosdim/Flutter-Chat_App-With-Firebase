@@ -7,7 +7,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
 import '../users/search_users_screens/search_user_screen_1.dart';
+class UserGraphicsClassAttributes{
 
+  final ProfilePageFormat profilePageFormat;
+  final SearchNewUsersFormat searchNewUsersFormat;
+  final UserSearchResultFormat userSearchResultFormat;
+  const UserGraphicsClassAttributes(
+      { this.userSearchResultFormat=const UserSearchResult(),
+        this.searchNewUsersFormat = const SearchNewUsersDarkMode(),
+        this.profilePageFormat = const ProfilePage()});
+}
 class UserGraphicsClass extends InheritedWidget{
   final ProfilePageFormat profilePageFormat;
   final SearchNewUsersFormat searchNewUsersFormat;

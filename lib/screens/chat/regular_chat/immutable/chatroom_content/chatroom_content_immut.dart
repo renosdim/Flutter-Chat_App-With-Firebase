@@ -1,3 +1,4 @@
+import 'package:custom_chat_clean_architecture_with_login_firebase/flexibleApp/flexible_app_main.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/injection.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/operations/auth/current_user.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/screens/formats.dart';
@@ -25,7 +26,7 @@ class ChatroomContentImmut extends StatefulWidget {
 class _ChatroomContentImmutState extends State<ChatroomContentImmut> {
   late final  ChatGraphicsClass chatGraphicsClass;
   late final  ChatService chatService;
-  final CurrentUserOp currentUserOp = serviceLocator<CurrentUserOp>();
+  final CurrentUserOp currentUserOp = FlexibleAppStarter().currentUserOp;
 
   @override
   void initState(){

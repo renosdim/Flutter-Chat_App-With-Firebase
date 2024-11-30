@@ -1,4 +1,5 @@
 
+import 'package:custom_chat_clean_architecture_with_login_firebase/flexibleApp/flexible_app_main.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/main.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/operations/auth/domain/use_cases/sign_out_use_case.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/screens/chat/regular_chat/immutable/chatroom_content/chatroom_content_immut.dart';
@@ -25,7 +26,7 @@ class ChatChooser extends StatefulWidget {
 
 class _ChatChooserState extends State<ChatChooser> with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  final  currentUser = serviceLocator<CurrentUserOp>().currentUser;
+  final  currentUser = FlexibleAppStarter().currentUserOp.currentUser;
   late final  ChatService  chatService ;
 
 
@@ -67,7 +68,7 @@ class _ChatChooserState extends State<ChatChooser> with SingleTickerProviderStat
                     ),
                   ],
                 ),
-                ElevatedButton(onPressed:() async=>await serviceLocator<SignOutUseCase>()(), child: Text('signOut')),
+                ElevatedButton(onPressed:() async=>await FlexibleAppStarter().signOut(), child: Text('signOut')),
                 Padding(
                   padding: const EdgeInsets.only(right:30.0,top:10.0),
                   child: Container(

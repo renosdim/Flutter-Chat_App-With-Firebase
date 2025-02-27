@@ -3,10 +3,12 @@ import 'package:custom_chat_clean_architecture_with_login_firebase/flexibleApp/f
 import 'package:custom_chat_clean_architecture_with_login_firebase/injection.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/operations/auth/current_user.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/screens/chat/loading_screen_for_messages.dart';
+import 'package:custom_chat_clean_architecture_with_login_firebase/screens/chat/regular_chat/immutable/chatroom_content/chatroom_content_immut.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/screens/formats.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/screens/general_navigation_bloc/general_navigation_cubit.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/screens/graphics_classes/chat_graphics_class.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
@@ -38,7 +40,7 @@ class InboxImmut extends StatefulWidget {
 class _InboxState extends State<InboxImmut> {
   final ScrollController scrollController = ScrollController();
   late final  ChatGraphicsClass chatGraphicsClass;
-  final CurrentUserOp currentUserOp = FlexibleAppStarter().currentUserOp;
+  final CurrentUserOp currentUserOp = serviceLocator<CurrentUserOp>();
 
   @override
   void initState(){
@@ -144,7 +146,7 @@ class _InboxState extends State<InboxImmut> {
 
     return Selector<ChatService, MapEntry<bool,List<ChatTileFormat?>>>(
       selector: (_, chatService) => MapEntry(
-          chatService.loadedFirstTime,chatService.startingMessages?.values.toList().map((e) => _convertChatroomDTOtoChatTile(e,context.read<GeneralNavigationCubit>().navigateToChatroomWithId)).toList()??[]),
+          chatService.loadedFirstTime,chatService.startingMessages?.values.toList().map((e) => _convertChatroomDTOtoChatTile(e,(id)=>Navigator.push(context,MaterialPageRoute(builder: (context)=>ChatroomContentImmut(chatroomId: id))))).toList()??[]),
       builder: (context,chatService, _) {
         bool loadedOnce = chatService.key;
         List<ChatTileFormat?> tilesWithNull =  chatService.value;
@@ -154,7 +156,7 @@ class _InboxState extends State<InboxImmut> {
         for(int i=0;i<tiles.length;i++){
 
 
-          tiles[i] = tiles[i].copyWith(lastMessage: null, header: null, pic: tiles[i].pic?.copyWith(onTap:()=>context.read<GeneralNavigationCubit>().navigateToFriendsProfileWithId(uid:'r8kq6octfQeKuGrZD7p4hi8lrDF2') ), onChatroomPressed: null);
+          tiles[i] = tiles[i].copyWith(lastMessage: null, header: null, pic: tiles[i].pic?.copyWith(onTap:()=>context.read<GeneralNavigationCubit>().navigateToFriendsProfileWithId ), onChatroomPressed: null);
         }
         if(loadedOnce) {
 

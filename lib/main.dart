@@ -33,7 +33,7 @@ Future<void> bootstrap(AppBuilder builder) async {
   retryAttempts: 10,
   ),
   );
-  FlexibleAppStarter().init(flexibleDatabaseService: FlexibleDatabaseService.firebase);
+  init(flexibleDatabaseService: FlexibleDatabaseService.firebase);
   //WidgetsBinding.instance.addObserver(AppLifecycleListener());
   //FirebaseDatabase.instance.setPersistenceEnabled(true);
 
@@ -84,7 +84,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
 
 
-    return FlexibleAppWrapper(
+    return StartFlowWrapper(
       title: 'Clean Architecture',
       generalTheme: darkTheme(),
       builder: (

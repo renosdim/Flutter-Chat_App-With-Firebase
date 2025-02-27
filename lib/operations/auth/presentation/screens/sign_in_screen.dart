@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:custom_chat_clean_architecture_with_login_firebase/flexibleApp/flexible_app_main.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/injection.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/operations/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:custom_chat_clean_architecture_with_login_firebase/operations/auth/presentation/screens/forms/sign_in_form3.dart';

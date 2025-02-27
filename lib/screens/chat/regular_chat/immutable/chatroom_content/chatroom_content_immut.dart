@@ -26,7 +26,7 @@ class ChatroomContentImmut extends StatefulWidget {
 class _ChatroomContentImmutState extends State<ChatroomContentImmut> {
   late final  ChatGraphicsClass chatGraphicsClass;
   late final  ChatService chatService;
-  final CurrentUserOp currentUserOp = FlexibleAppStarter().currentUserOp;
+  final CurrentUserOp currentUserOp = serviceLocator<CurrentUserOp>();
 
   @override
   void initState(){

@@ -3,7 +3,7 @@
 
 ## Overview
 
-This project is a custom chat application built using Flutter. It leverages Firebase for authentication and real-time data synchronization. The application is structured using clean architecture principles and employs various state management techniques to ensure a scalable and maintainable codebase.
+This Clean Architecture project is a custom chat application built using Flutter that I made with my partner Harry Katerelo. It leverages Firebase for authentication and real-time data synchronization. The application is structured using clean architecture principles and employs various state management techniques to ensure a scalable and maintainable codebase.
 
 ## Project Structure
 
